@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router'
 import swal from 'sweetalert'
+import useInput from '../customhook/useInput'
 
 const Navbar = () => {
 
     const [togglenav, setTogglenav] = useState(false)
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    const [username, bindUsername, resetUsername] = useInput()
+    const [password, bindPassword, resetPassword] = useInput()
     const history = useHistory()
 
     const logout = () => {
@@ -34,8 +35,8 @@ const Navbar = () => {
             swal('Invalid Credentials', 'Try Again', 'error')
         }
 
-        setUsername('')
-        setPassword('')
+        resetUsername()
+        resetPassword()
     }
 
     const NavLightMarkup = (
@@ -47,8 +48,8 @@ const Navbar = () => {
                 {
                     !localStorage.getItem('isLoggedIn') ?
                         (<form onSubmit={login}>
-                            <input type="text" placeholder="username" required value={username} onChange={e => setUsername(e.target.value)} />
-                            <input type="password" placeholder="password" required value={password} onChange={e => setPassword(e.target.value)} />
+                            <input type="text" placeholder="username" required {...bindUsername} />
+                            <input type="password" placeholder="password" required {...bindPassword} />
                             <button type="submit">LOGIN</button>
                         </form>)
                         :
@@ -65,8 +66,8 @@ const Navbar = () => {
                 {
                     !localStorage.getItem('isLoggedIn') ?
                         (<form className="d-flex" onSubmit={login}>
-                            <input className="form-control me-2" type="text" placeholder="username" required value={username} onChange={e => setUsername(e.target.value)} />
-                            <input className="form-control me-2" type="password" placeholder="password" required value={password} onChange={e => setPassword(e.target.value)} />
+                            <input className="form-control me-2" type="text" placeholder="username" required {...bindUsername} />
+                            <input className="form-control me-2" type="password" placeholder="password" required {...bindPassword} />
                             <button className="btn btn-outline-primary" type="submit">LOGIN</button>
                         </form>)
                         :

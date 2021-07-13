@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import swal from 'sweetalert'
+import useInput from '../customhook/useInput'
 
 const Body = () => {
 
-    const [name, setName] = useState('')
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    const [name, bindName, resetName] = useInput()
+    const [username, bindUsername, resetUsername] = useInput()
+    const [password, bindPassword, resetPassword] = useInput()
 
     const submitHandeler = e => {
         e.preventDefault()
@@ -19,9 +20,9 @@ const Body = () => {
         users.push(newUser)
         localStorage.setItem('users', JSON.stringify(users))
 
-        setName('')
-        setUsername('')
-        setPassword('')
+        resetName()
+        resetUsername()
+        resetPassword()
     }
 
     return (
@@ -35,9 +36,9 @@ const Body = () => {
                 <div className="col-md-4" style={{ marginTop: "20px" }}>
                     <h1>Register</h1>
                     <form className="regForm" onSubmit={submitHandeler}>
-                        <input type="text" placeholder="name" className="form-control" required value={name} onChange={e => setName(e.target.value)} />
-                        <input type="text" placeholder="username" className="form-control" required value={username} onChange={e => setUsername(e.target.value)} />
-                        <input type="password" placeholder="password" className="form-control" required value={password} onChange={e => setPassword(e.target.value)} />
+                        <input type="text" placeholder="name" className="form-control" required {...bindName} />
+                        <input type="text" placeholder="username" className="form-control" required {...bindUsername} />
+                        <input type="password" placeholder="password" className="form-control" required {...bindPassword} />
                         <button type="submit" className="btn btn-primary">SIGN UP</button>
                     </form>
                 </div>
